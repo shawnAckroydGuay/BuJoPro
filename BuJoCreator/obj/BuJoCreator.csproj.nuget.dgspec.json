@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\BuJoCreator.csproj": {}
+    "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\BuJoCreator.csproj": {
+    "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\BuJoCreator.csproj",
+        "projectUniqueName": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
         "projectName": "BuJoCreator",
-        "projectPath": "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\BuJoCreator.csproj",
-        "packagesPath": "C:\\Users\\shawn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\obj\\",
+        "projectPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
+        "packagesPath": "/Users/shawn/.nuget/packages/",
+        "outputPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\shawn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/shawn/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -60,12 +58,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.15, 6.0.15]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[6.0.15, 6.0.15]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.15, 6.0.15]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }

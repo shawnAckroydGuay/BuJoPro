@@ -12,9 +12,9 @@ namespace WM.LaTex
 
         public string TmpPath { get; }
 
-        public byte[] Erzeuge(string filePath, string fileName)
+        public byte[] Create(string filePath, string fileName)
         {
-            if (this._pdf == null) 
+            if (this._pdf == null)
             {
                 using (Process process = new Process())
                 {
@@ -27,7 +27,8 @@ namespace WM.LaTex
                     interpolatedStringHandler.AppendFormatted(filePath);
                     interpolatedStringHandler.AppendLiteral(" -interaction=batchmode -shell-escape ");
                     interpolatedStringHandler.AppendFormatted(filePath);
-                    interpolatedStringHandler.AppendLiteral("\\"+ fileName + ".tex");
+                    // interpolatedStringHandler.AppendLiteral("\\" + fileName + ".tex");
+                    interpolatedStringHandler.AppendLiteral("/" + fileName + ".tex");
                     string stringAndClear = interpolatedStringHandler.ToStringAndClear();
                     startInfo.Arguments = stringAndClear;
                     for (int index = 0; index < 2; ++index)
@@ -38,13 +39,16 @@ namespace WM.LaTex
                 }
                 try
                 {
-                    this._pdf = File.ReadAllBytes(filePath + "\\" + fileName + ".pdf");
+                    // this._pdf = File.ReadAllBytes(filePath + "\\" + fileName + ".pdf");
+                    this._pdf = File.ReadAllBytes(filePath + "/" + fileName + ".pdf");
                 }
                 catch
                 {
                 }
-                File.Delete(filePath + "\\monthPlanning.log");
-                File.Delete(filePath + "\\monthPlanning.aux");
+                // File.Delete(filePath + "\\monthPlanning.log");
+                // File.Delete(filePath + "\\monthPlanning.aux"); 
+                File.Delete(filePath + "/monthPlanning.log");
+                File.Delete(filePath + "/monthPlanning.aux");
             }
             return this._pdf;
         }

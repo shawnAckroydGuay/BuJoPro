@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuJoCreator", "BuJoCreator\BuJoCreator.csproj", "{6870D847-86F9-4ECC-BCFC-5C28857F8A5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuJoCreator.Tests", "BuJoCreator.Tests\BuJoCreator.Tests.csproj", "{E00E3E13-FD88-4353-A035-EE925DCC9584}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6870D847-86F9-4ECC-BCFC-5C28857F8A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6870D847-86F9-4ECC-BCFC-5C28857F8A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6870D847-86F9-4ECC-BCFC-5C28857F8A5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00E3E13-FD88-4353-A035-EE925DCC9584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00E3E13-FD88-4353-A035-EE925DCC9584}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00E3E13-FD88-4353-A035-EE925DCC9584}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00E3E13-FD88-4353-A035-EE925DCC9584}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

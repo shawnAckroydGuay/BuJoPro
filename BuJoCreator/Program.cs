@@ -1,16 +1,15 @@
-﻿
-
-using PdfSharp.Pdf;
+﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.Text;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-var latexPath = "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\LaTex";
+// var latexPath = "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\LaTex";
+var latexPath = "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex";
 
 var pdfCreator = new WM.LaTex.PdfCreator();
 
-var monthPlanningPdfBytes = pdfCreator.Erzeuge(latexPath, "monthPlanning");
+var monthPlanningPdfBytes = pdfCreator.Create(latexPath, "monthPlanning");
 
 var outputDocument = new PdfDocument();
 MemoryStream stream = new MemoryStream(monthPlanningPdfBytes);
