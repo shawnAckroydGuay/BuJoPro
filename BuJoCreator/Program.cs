@@ -9,7 +9,7 @@ var latexPath = "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex"
 
 var pdfCreator = new WM.LaTex.PdfCreator();
 
-var monthPlanningPdfBytes = pdfCreator.Create(latexPath, "monthPlanning");
+var monthPlanningPdfBytes = pdfCreator.Create(latexPath, "monthPlanningTest");
 
 var outputDocument = new PdfDocument();
 MemoryStream stream = new MemoryStream(monthPlanningPdfBytes);

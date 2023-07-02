@@ -3,19 +3,18 @@
 \usepackage{tikz}
 \usepackage{scalefnt}
 \usetikzlibrary{positioning, calc}
-\renewcommand{\familydefault}{\sfdefault}
 \usepackage{datetime}
 \tikzset{circle node/.style = {circle,inner sep=1pt,draw, fill=white},
         X node/.style = {fill=white, inner sep=1pt},
-        day node/.style = {font=\scalefont{0.7}, yshift=-27.5pt },
-        task node/.style = { xshift=50pt, yshift=-27pt},
+        day node/.style = {font=\scalefont{0.5}, yshift=-27.5pt, textwidth=0in},
+        task node/.style = { font=\scalefont{1}, xshift=50pt, yshift=-27pt},
         event node/.style = {circle, fill=red},
         dot node/.style = {circle, draw, inner sep=5pt}
 }
-    listOfDaysToReplace
-    \def\daysOfMonth{1,...,daysCountToReplace}
-    \def\daysCount{daysCountToReplace}
-    \def\dayCountPlusOne{daysCountPlusOneToReplace}
+    \def\bulletCount{01J,02V,03S,04D,05L,06M,07M,08J,09V,10S,11D,12L,13M,14M,15J,16V,17S,18D,19L,20M,21M,22J,23V,24S,25D,26L,27M,28M,29J,30V,XX,XX,XX,XX,XX,XX,XX,XX,XX,XX,XX}
+    \def\daysOfMonth{1,...,30}
+    \def\daysCount{30}
+    \def\dayCountPlusOne{31}
     \def\firstCat{Important}
     \def\secondCat{Social}
     \def\thirdCat{Améliorations}
@@ -27,7 +26,7 @@
     \begin{document}
         \tikz[remember picture,overlay] \node[opacity=0.3,inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{squaredots.pdf}};
         \begin{tikzpicture}[scale=0.5075]
-            
+        
             \foreach \y [count=\cnt] in \bulletCount
                 {
                     \ifnum\cnt=1
@@ -37,25 +36,25 @@
                     \fi
                     \ifnum\cnt>\daysCount
                         \ifnum\cnt=\dayCountPlusOne
-                            \fill (1, -\cnt) node (A) [task node] {\textbf{\firstCat}}; 
-                            \fill (10, -\cnt) node (A) [task node] {\textbf{\secondCat}}; 
-                            \fill (19, -\cnt) node (A) [task node] {\textbf{\thirdCat}}; 
-                            \fill (28, -\cnt) node (A) [task node] {\textbf{\fourthCat}}; 
-                            \fill (36, -\cnt) node (A) [task node] {\textbf{\fifthCat}}; 
-                            \fill (45, -\cnt) node (A) [task node] {\textbf{\sixthCat}}; 
+                            \fill (1, -\cnt) node (A) [task node] {\text{\firstCat}}; 
+                            \fill (10, -\cnt) node (A) [task node] {\text{\secondCat}}; 
+                            \fill (19, -\cnt) node (A) [task node] {\text{\thirdCat}}; 
+                            \fill (28, -\cnt) node (A) [task node] {\text{\fourthCat}}; 
+                            \fill (36, -\cnt) node (A) [task node] {\text{\fifthCat}}; 
+                            \fill (45, -\cnt) node (A) [task node] {\text{\sixthCat}}; 
                         \else
-                            \fill (0.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (9.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (18.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (27.33, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (35.4, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (44.4, -\cnt) circle [radius=2pt, yshift=-50pt];
+                            \fill (0.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (9.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (18.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (27.33, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (35.4, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (44.4, -\cnt) circle [radius=1.5pt, yshift=-50pt];
                         \fi     
                     \else 
-                        \fill (0, -\cnt) node (A)   {\textbf{\y}};
-                        \fill (1.28, -\cnt) circle [radius=2pt, yshift=-50pt,];
-                        \fill (9.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                        \fill (18.3, -\cnt) circle [radius=2pt, yshift=-50pt];
+                        \fill (0, -\cnt) node (A) [day node] {\texttt{\y}};
+                        \fill (1.28, -\cnt) circle [radius=1.5pt, yshift=-50pt,];
+                        \fill (9.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                        \fill (18.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
                         
                     \fi
 

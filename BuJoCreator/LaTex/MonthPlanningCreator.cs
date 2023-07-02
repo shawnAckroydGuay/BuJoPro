@@ -8,12 +8,21 @@ namespace BuJoCreator.LaTex
 {
     public class MonthPlanningCreator
     {
+        public string TemplatePath = "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanning.tex";
+
         public MonthPlanningCreator()
         {
 
         }
 
-        public string Create(int year, int month)
+        public string CreateMonthPlanningPage(int year, int month)
+        {
+            var dayList = CreateDaysList(year, month);
+            var dayCount = DateTime.DaysInMonth(year, month);
+            return GetMonthPageWithReplacedValues(dayList, dayCount);
+        }
+
+        public string CreateDaysList(int year, int month)
         {
             var daysOfTheMonth = "\\def\\bulletCount{";
             var daysOfTheMonths = DateTime.DaysInMonth(year, month);
@@ -30,6 +39,14 @@ namespace BuJoCreator.LaTex
 
             return daysOfTheMonth.Remove(daysOfTheMonth.Length - 1) + "}";
 
+        }
+
+        public string GetMonthPageWithReplacedValues(string dayList, int daysCount)
+        {
+            string originalMonthPlanningTemplate = File.ReadAllText(TemplatePath);
+            var monthPlanningWithDaysList = originalMonthPlanningTemplate.Replace("listOfDaysToReplace", dayList);
+            var monthPlanningWithDaysCount = monthPlanningWithDaysList.Replace("daysCountToReplace", daysCount.ToString()).Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
+            return monthPlanningWithDaysCount;
         }
 
     }

@@ -14,7 +14,16 @@ namespace BuJoCreator.Tests
         {
             var monthplanning = new MonthPlanningCreator();
 
-            var list = monthplanning.Create(2023, 6);
+            var list = monthplanning.CreateDaysList(2023, 6);
+        }
+
+        [Test]
+        public void Test2()
+        {
+            var monthplanning = new MonthPlanningCreator();
+
+            var page = monthplanning.CreateMonthPlanningPage(2023, 6);
+            File.WriteAllText("/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanningTest.tex", page);
         }
     }
 }

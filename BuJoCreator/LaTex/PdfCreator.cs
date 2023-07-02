@@ -47,8 +47,8 @@ namespace WM.LaTex
                 }
                 // File.Delete(filePath + "\\monthPlanning.log");
                 // File.Delete(filePath + "\\monthPlanning.aux"); 
-                File.Delete(filePath + "/monthPlanning.log");
-                File.Delete(filePath + "/monthPlanning.aux");
+                File.Delete(filePath + "/monthPlanningTest.log");
+                File.Delete(filePath + "/monthPlanningTest.aux");
             }
             return this._pdf;
         }
