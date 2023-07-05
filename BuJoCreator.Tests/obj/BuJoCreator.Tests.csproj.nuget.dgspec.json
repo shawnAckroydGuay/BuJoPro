@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj": {}
+    "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj": {}
   },
   "projects": {
-    "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj": {
+    "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj",
+        "projectUniqueName": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj",
         "projectName": "BuJoCreator.Tests",
-        "projectPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj",
+        "projectPath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator.Tests/BuJoCreator.Tests.csproj",
         "packagesPath": "/Users/shawn/.nuget/packages/",
-        "outputPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator.Tests/obj/",
+        "outputPath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator.Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/shawn/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {
-                "projectPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj"
+              "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {
+                "projectPath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj"
               }
             }
           }
@@ -77,11 +77,11 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.15, 6.0.15]"
+              "version": "[6.0.19, 6.0.19]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.15, 6.0.15]"
+              "version": "[6.0.19, 6.0.19]"
             }
           ],
           "frameworkReferences": {
@@ -89,18 +89,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.305/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {
+    "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
+        "projectUniqueName": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
         "projectName": "BuJoCreator",
-        "projectPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
+        "projectPath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
         "packagesPath": "/Users/shawn/.nuget/packages/",
-        "outputPath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/obj/",
+        "outputPath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/shawn/.nuget/NuGet/NuGet.Config"
@@ -150,15 +150,15 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.15, 6.0.15]"
+              "version": "[6.0.19, 6.0.19]"
             },
             {
-              "name": "Microsoft.NETCore.App.Host.osx-x64",
-              "version": "[6.0.15, 6.0.15]"
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "version": "[6.0.19, 6.0.19]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.15, 6.0.15]"
+              "version": "[6.0.19, 6.0.19]"
             }
           ],
           "frameworkReferences": {
@@ -166,7 +166,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.305/RuntimeIdentifierGraph.json"
         }
       }
     }

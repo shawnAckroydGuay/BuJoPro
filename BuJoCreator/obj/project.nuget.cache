@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "l912aGpWwZEZk/94JDjmxlaq4T+TAs7TdhKV/vc73l0uXPsBiBGDtyP4oUXodvRNkY6JYjVyjx0XuJH1ft6vHw==",
+  "dgSpecHash": "LKhC+TfJeabsJV2OKMl/6oNWWD1OqQ2NRm9cboLJGMnPkSFKxU6zn3+aZpniQTQHmMi7Uc3XMzVZm4Ag1/EjGA==",
   "success": true,
-  "projectFilePath": "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
+  "projectFilePath": "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/BuJoCreator.csproj",
   "expectedPackageFiles": [
     "/Users/shawn/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "/Users/shawn/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
@@ -33,16 +33,16 @@
     "/Users/shawn/.nuget/packages/system.threading.threadpool/4.3.0/system.threading.threadpool.4.3.0.nupkg.sha512",
     "/Users/shawn/.nuget/packages/wm.latex/2.3.0/wm.latex.2.3.0.nupkg.sha512",
     "/Users/shawn/.nuget/packages/wm.util/3.1.0/wm.util.3.1.0.nupkg.sha512",
-    "/Users/shawn/.nuget/packages/microsoft.netcore.app.ref/6.0.15/microsoft.netcore.app.ref.6.0.15.nupkg.sha512",
-    "/Users/shawn/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.15/microsoft.aspnetcore.app.ref.6.0.15.nupkg.sha512",
-    "/Users/shawn/.nuget/packages/microsoft.netcore.app.host.osx-x64/6.0.15/microsoft.netcore.app.host.osx-x64.6.0.15.nupkg.sha512"
+    "/Users/shawn/.nuget/packages/microsoft.netcore.app.ref/6.0.19/microsoft.netcore.app.ref.6.0.19.nupkg.sha512",
+    "/Users/shawn/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.19/microsoft.aspnetcore.app.ref.6.0.19.nupkg.sha512",
+    "/Users/shawn/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.19/microsoft.netcore.app.host.osx-arm64.6.0.19.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'PDFsharp 1.50.5147' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' au lieu du framework cible du projet 'net6.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Package 'PDFsharp 1.50.5147' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
       "libraryId": "PDFsharp",
       "targetGraphs": [
         "net6.0"
