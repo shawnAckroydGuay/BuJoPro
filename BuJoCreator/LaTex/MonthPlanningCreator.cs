@@ -8,7 +8,7 @@ namespace BuJoCreator.LaTex
 {
     public class MonthPlanningCreator
     {
-        public string TemplatePath = "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanning.tex";
+        public string TemplatePath = "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanning.tex";
 
         public MonthPlanningCreator()
         {

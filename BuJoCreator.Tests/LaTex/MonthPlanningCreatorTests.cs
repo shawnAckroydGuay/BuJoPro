@@ -23,7 +23,7 @@ namespace BuJoCreator.Tests
             var monthplanning = new MonthPlanningCreator();
 
             var page = monthplanning.CreateMonthPlanningPage(2023, 6);
-            File.WriteAllText("/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanningTest.tex", page);
+            File.WriteAllText("/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/LaTex/monthPlanningTest.tex", page);
         }
     }
 }

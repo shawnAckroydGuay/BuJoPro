@@ -3,14 +3,13 @@
 \usepackage{tikz}
 \usepackage{scalefnt}
 \usetikzlibrary{positioning, calc}
-\renewcommand{\familydefault}{\sfdefault}
 \usepackage{datetime}
 \tikzset{circle node/.style = {circle,inner sep=1pt,draw, fill=white},
-        X node/.style = {fill=white, inner sep=1pt},
-        day node/.style = {font=\scalefont{0.7}, yshift=-27.5pt },
-        task node/.style = { xshift=50pt, yshift=-27pt},
-        event node/.style = {circle, fill=red},
-        dot node/.style = {circle, draw, inner sep=5pt}
+	X node/.style = {fill=white, inner sep=1pt},
+	day node/.style = {font=\scalefont{0.5}, yshift=-27.5pt},
+	task node/.style = { font=\scalefont{1}, xshift=50pt, yshift=-27pt},
+	event node/.style = {circle, fill=red},
+	dot node/.style = {circle, draw, inner sep=5pt}
 }
     listOfDaysToReplace
     \def\daysOfMonth{1,...,daysCountToReplace}
@@ -37,25 +36,25 @@
                     \fi
                     \ifnum\cnt>\daysCount
                         \ifnum\cnt=\dayCountPlusOne
-                            \fill (1, -\cnt) node (A) [task node] {\textbf{\firstCat}}; 
-                            \fill (10, -\cnt) node (A) [task node] {\textbf{\secondCat}}; 
-                            \fill (19, -\cnt) node (A) [task node] {\textbf{\thirdCat}}; 
-                            \fill (28, -\cnt) node (A) [task node] {\textbf{\fourthCat}}; 
-                            \fill (36, -\cnt) node (A) [task node] {\textbf{\fifthCat}}; 
-                            \fill (45, -\cnt) node (A) [task node] {\textbf{\sixthCat}}; 
+                            \fill (1, -\cnt) node (A) [task node] {\text{\firstCat}}; 
+                            \fill (10, -\cnt) node (A) [task node] {\text{\secondCat}}; 
+                            \fill (19, -\cnt) node (A) [task node] {\text{\thirdCat}}; 
+                            \fill (28, -\cnt) node (A) [task node] {\text{\fourthCat}}; 
+                            \fill (36, -\cnt) node (A) [task node] {\text{\fifthCat}}; 
+                            \fill (45, -\cnt) node (A) [task node] {\text{\sixthCat}}; 
                         \else
-                            \fill (0.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (9.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (18.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (27.33, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (35.4, -\cnt) circle [radius=2pt, yshift=-50pt];
-                            \fill (44.4, -\cnt) circle [radius=2pt, yshift=-50pt];
+                            \fill (0.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (9.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (18.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (27.33, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (35.4, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                            \fill (44.4, -\cnt) circle [radius=1.5pt, yshift=-50pt];
                         \fi     
                     \else 
-                        \fill (0, -\cnt) node (A)   {\textbf{\y}};
-                        \fill (1.28, -\cnt) circle [radius=2pt, yshift=-50pt,];
-                        \fill (9.3, -\cnt) circle [radius=2pt, yshift=-50pt];
-                        \fill (18.3, -\cnt) circle [radius=2pt, yshift=-50pt];
+                        \fill (0, -\cnt) node (A) [day node] {\texttt{\y}};
+                        \fill (1.28, -\cnt) circle [radius=1.5pt, yshift=-50pt,];
+                        \fill (9.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
+                        \fill (18.3, -\cnt) circle [radius=1.5pt, yshift=-50pt];
                         
                     \fi
 

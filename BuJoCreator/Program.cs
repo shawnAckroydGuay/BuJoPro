@@ -5,7 +5,7 @@ using System.Text;
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 // var latexPath = "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\LaTex";
-var latexPath = "/Users/shawn/Repos/productivityAgendaCreator/BuJoCreator/LaTex";
+var latexPath = "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/LaTex";
 
 var pdfCreator = new WM.LaTex.PdfCreator();
  
@@ -18,6 +18,6 @@ var inputPdfDocument = PdfReader.Open(stream, PdfDocumentOpenMode.Import);
 outputDocument.AddPage(inputPdfDocument.Pages[0]);
 outputDocument.AddPage(inputPdfDocument.Pages[0]);
 
-outputDocument.Save(latexPath + "\\monthPlanning.pdf");
+outputDocument.Save(latexPath + "/result/monthPlanning.pdf");
 
 
