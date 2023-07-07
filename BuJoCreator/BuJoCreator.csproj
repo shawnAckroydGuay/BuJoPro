@@ -12,4 +12,10 @@
     <PackageReference Include="WM.Latex" Version="2.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="LaTex\result\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LaTex\result\" />
+  </ItemGroup>
 </Project>

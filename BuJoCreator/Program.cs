@@ -1,23 +1,27 @@
-﻿using PdfSharp.Pdf;
+﻿using BuJoCreator.LaTex;
+using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.Text;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 // var latexPath = "C:\\Users\\shawn\\source\\repos\\productivityAgendaCreator\\BuJoCreator\\LaTex";
-var latexPath = "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/LaTex";
+//var latexPath = "/Users/shawn/Code/productivityAgendaCreator/BuJoCreator/LaTex";
 
-var pdfCreator = new WM.LaTex.PdfCreator();
+//var pdfCreator = new WM.LaTex.PdfCreator();
  
-var monthPlanningPdfBytes = pdfCreator.Create(latexPath, "monthPlanningTest");
+//var monthPlanningPdfBytes = pdfCreator.Create(latexPath, "monthPlanningTest");
 
-var outputDocument = new PdfDocument();
-MemoryStream stream = new MemoryStream(monthPlanningPdfBytes);
+var montPlanningCreator = new MonthPlanningCreator();
+montPlanningCreator.CreateSixMonths();
 
-var inputPdfDocument = PdfReader.Open(stream, PdfDocumentOpenMode.Import);
-outputDocument.AddPage(inputPdfDocument.Pages[0]);
-outputDocument.AddPage(inputPdfDocument.Pages[0]);
+//var outputDocument = new PdfDocument();
+//MemoryStream stream = new MemoryStream(monthPlanningPdfBytes);
 
-outputDocument.Save(latexPath + "/result/monthPlanning.pdf");
+//var inputPdfDocument = PdfReader.Open(stream, PdfDocumentOpenMode.Import);
+//outputDocument.AddPage(inputPdfDocument.Pages[0]);
+//outputDocument.AddPage(inputPdfDocument.Pages[0]);
+
+//outputDocument.Save(latexPath + "/result/monthPlanning.pdf");
 
 
