@@ -1,6 +1,4 @@
 ﻿using BuJoCreator.LaTex;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 using System.Text;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PdfSharp" Version="1.50.5147" />
+    <PackageReference Include="PdfSharpCore" Version="1.3.60" />
     <PackageReference Include="WM.Latex" Version="2.3.0" />
   </ItemGroup>
 
