@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuJoCreator", "BuJoCreator\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuJoCreator.Tests", "BuJoCreator.Tests\BuJoCreator.Tests.csproj", "{E00E3E13-FD88-4353-A035-EE925DCC9584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuJoProApi", "bujopro-api\BuJoProApi.csproj", "{B44FC360-68DA-4294-8AF4-03F871E92736}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuJoProApi", "BuJoProApi\BuJoProApi.csproj", "{B44FC360-68DA-4294-8AF4-03F871E92736}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuJoProApplicationLogic", "BuJoProApplicationLogic\BuJoProApplicationLogic.csproj", "{CC8AC3F7-DA0A-4BDC-A7E4-9DF957E029BF}"
 EndProject

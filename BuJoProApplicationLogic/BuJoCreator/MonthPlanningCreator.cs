@@ -19,25 +19,46 @@ namespace BuJoProApplicationLogic.BuJoCreator
 
         public void CreateSixMonths()
         {
+            /*
+             Since the agenda will be folded, this process is a bit odd. 
+             Let's consider that the user want a bullet journal for JANUARY until JUNE.
+             The way it's made is a bit like this : 
+                    - page 1 (front): White
+                    - page 2 (back): year planning 1 / last page (TODO)
+                    - page 3 (front): year planning 2 / last page (TODO)
+                    - page 4 (back): backlog / blank page
+                    - page 5 (front): backlog / blank page 
+                    - page 6 (back): january / 3 tasks + planning
+                    - page 7 (front): june / 3 tasks + planning
+                    - page 8 (back): blank 
+                    - page 9 (front) : blank 
+                    - page 10 (back) : february / 3 tasks + planning
+                    - page 11 (front) : May / 3 task + planning
+                    - page 12 (back) : blank 
+                    - page 13 (front) : blank 
+                    - page 14 (back) : March / 3 task + planning 
+                    - page 15 (front) : April / 3 tasks + planning 
+                    - page 16 (back) : blank
+                    - page 17 (front) :blank (useless page will not be used, could discard it)
+             */
             PdfDocument outputDocument = new();
 
             int monthCount = 6;
             int maxMonth = 12;
             int minMonth = 7;
 
-            MemoryStream dottedMonthStream1 = new(_dotedPaper);
-            PdfDocument inputDottedPaper1 = PdfReader.Open(dottedMonthStream1, PdfDocumentOpenMode.Import);
-            _ = outputDocument.AddPage(inputDottedPaper1.Pages[0]);
+            var secondPageStream = new MemoryStream(_dotedPaper);
+            var secondPagePdf = PdfReader.Open(secondPageStream, PdfDocumentOpenMode.Import);
+            outputDocument.AddPage(); 
+            outputDocument.AddPage(secondPagePdf.Pages[0]);
 
 
             for (int i = 0; i < monthCount / 2; i++)
             {
-                string firstMonth = CreateMonthPlanningPage(2023, minMonth);
-                string secondMonth = CreateMonthPlanningPage(2023, maxMonth);
-                minMonth++;
-                maxMonth--;
-                File.WriteAllText(LatexPath + "firstMonth.tex", firstMonth);
-                File.WriteAllText(LatexPath + "secondMonth.tex", secondMonth);
+                string backPageMonth = CreateMonthPlanningPage(2023, minMonth);
+                string frontPageMonth = CreateMonthPlanningPage(2023, maxMonth);
+                File.WriteAllText(LatexPath + "firstMonth.tex", backPageMonth);
+                File.WriteAllText(LatexPath + "secondMonth.tex", frontPageMonth);
                 byte[]? firstMonthBytes = _pdfCreator.Convert(LatexPath, "firstMonth");
                 byte[]? secondMonthBytes = _pdfCreator.Convert(LatexPath, "secondMonth");
 
@@ -53,8 +74,10 @@ namespace BuJoProApplicationLogic.BuJoCreator
                 PdfDocument inputDottedPaper = PdfReader.Open(dottedMonthStream, PdfDocumentOpenMode.Import);
                 _ = outputDocument.AddPage(inputDottedPaper.Pages[0]);
                 _ = outputDocument.AddPage(inputDottedPaper.Pages[0]);
+                minMonth++;
+                maxMonth--;
             }
-            outputDocument.Save(LatexPath + "/result/monthPlanning.pdf");
+            outputDocument.Save(LatexPath + "monthPlanning.pdf");
 
         }
 

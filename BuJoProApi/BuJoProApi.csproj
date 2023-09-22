@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>bujopro_api</RootNamespace>
+    <RootNamespace>BuJoProApi</RootNamespace>
     <UserSecretsId>b63933eb-bdce-4a8b-8317-579f054c4c35</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
