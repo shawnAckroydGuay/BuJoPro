@@ -17,7 +17,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
             _dotedPaper = File.ReadAllBytes(LatexPath+ "dotted-blank-page.pdf");
         }
 
-        public void CreateSixMonths()
+        public byte[] CreateSixMonths()
         {
             /*
              Since the agenda will be folded, this process is a bit odd. 
@@ -57,10 +57,10 @@ namespace BuJoProApplicationLogic.BuJoCreator
             {
                 string backPageMonth = CreateMonthPlanningPage(2023, minMonth);
                 string frontPageMonth = CreateMonthPlanningPage(2023, maxMonth);
-                File.WriteAllText(LatexPath + "firstMonth.tex", backPageMonth);
-                File.WriteAllText(LatexPath + "secondMonth.tex", frontPageMonth);
-                byte[]? firstMonthBytes = _pdfCreator.Convert(LatexPath, "firstMonth");
-                byte[]? secondMonthBytes = _pdfCreator.Convert(LatexPath, "secondMonth");
+                File.WriteAllText(LatexPath + "backPageMonth.tex", backPageMonth);
+                File.WriteAllText(LatexPath + "frontPageMonth.tex", frontPageMonth);
+                byte[]? firstMonthBytes = _pdfCreator.Convert(LatexPath, "backPageMonth");
+                byte[]? secondMonthBytes = _pdfCreator.Convert(LatexPath, "frontPageMonth");
 
                 MemoryStream streamFirstMonth = new(firstMonthBytes);
                 PdfDocument inputPdfDocumentFirstMonth = PdfReader.Open(streamFirstMonth, PdfDocumentOpenMode.Import);
@@ -77,10 +77,14 @@ namespace BuJoProApplicationLogic.BuJoCreator
                 minMonth++;
                 maxMonth--;
             }
-            outputDocument.Save(LatexPath + "monthPlanning.pdf");
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                outputDocument.Save(stream, false);
+                return stream.ToArray();
+            }
 
         }
-
 
         public string CreateMonthPlanningPage(int year, int month)
         {

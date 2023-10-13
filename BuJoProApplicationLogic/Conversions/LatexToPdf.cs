@@ -19,7 +19,6 @@ namespace WM.LaTex
                 interpolatedStringHandler.AppendFormatted(filePath);
                 interpolatedStringHandler.AppendLiteral(" -interaction=batchmode -shell-escape ");
                 interpolatedStringHandler.AppendFormatted(filePath);
-                // interpolatedStringHandler.AppendLiteral("\\" + fileName + ".tex");
                 interpolatedStringHandler.AppendLiteral("/" + fileName + ".tex");
                 string stringAndClear = interpolatedStringHandler.ToStringAndClear();
                 startInfo.Arguments = stringAndClear;
@@ -29,14 +28,9 @@ namespace WM.LaTex
                     process.WaitForExit();
                 }
             }
-            // this._pdf = File.ReadAllBytes(filePath + "\\" + fileName + ".pdf");
             pdfByte = File.ReadAllBytes(filePath + "/" + fileName + ".pdf");
-            // File.Delete(filePath + "\\monthPlanning.log");
-            // File.Delete(filePath + "\\monthPlanning.aux");
-            //File.Delete(filePath + "/" + fileName + ".pdf");
-            //File.Delete(filePath + "/" + fileName + ".tex");
-            //File.Delete(filePath + "/monthPlanningTest.log");
-            //File.Delete(filePath + "/monthPlanningTest.aux");
+            var filesToDelete = Directory.GetFiles(filePath, fileName + ".*").ToList();
+            filesToDelete.ForEach(File.Delete);
             return pdfByte;
         }
 

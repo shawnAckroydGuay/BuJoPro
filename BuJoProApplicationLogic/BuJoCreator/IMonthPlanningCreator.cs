@@ -2,6 +2,6 @@
 {
     public interface IMonthPlanningCreator
     {
-        void CreateSixMonths();
+        byte[] CreateSixMonths();
     }
 }
