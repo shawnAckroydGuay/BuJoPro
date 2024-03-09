@@ -1,6 +1,24 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
+        {
+            "name": "Docker .NET Attach (Preview)",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}"
+            }
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Docker: Attach to Node",
+            "remoteRoot": "/usr/src/app"
+        },
+
+    
         {
             // Use IntelliSense to find out which attributes exist for C# debugging
             // Use hover for the description of the existing attributes
@@ -10,9 +28,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/BuJoCreator/bin/Debug/net6.0/BuJoCreator.dll",
+            "program": "${workspaceFolder}/BuJoProApi/bin/Debug/net7.0/BuJoProApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/BuJoCreator",
+            "cwd": "${workspaceFolder}/BuJoProApi",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

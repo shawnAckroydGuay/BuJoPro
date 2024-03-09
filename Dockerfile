@@ -5,6 +5,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["BuJoProApi/BuJoProApi.csproj", "BuJoProApi/"]
@@ -20,7 +21,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-RUN sudo apt-get update && apt-get install -y texlive
-#RUN sudo apt-get install texlive-pictures
+RUN apt-get update && apt-get install -y texlive
+RUN apt-get install texlive-pictures -y
 #
 ENTRYPOINT ["dotnet", "BuJoProApi.dll"]

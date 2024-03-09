@@ -26,7 +26,7 @@ namespace BuJoCreator.LaTex
             int minMonth = 7;
 
             MemoryStream dottedMonthStream1 = new(_dotedPaper);
-            PdfSharpCore.Pdf.PdfDocument inputDottedPaper1 = PdfReader.Open(dottedMonthStream1, PdfDocumentOpenMode.Import);
+            PdfDocument inputDottedPaper1 = PdfReader.Open(dottedMonthStream1, PdfDocumentOpenMode.Import);
             outputDocument.AddPage(inputDottedPaper1.Pages[0]);
 
 
