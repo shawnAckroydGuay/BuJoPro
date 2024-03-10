@@ -1,4 +1,6 @@
-﻿using PdfSharpCore.Pdf;
+﻿using System.Reflection.Metadata;
+using PdfSharpCore;
+using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
 using WM.LaTex;
 
@@ -49,7 +51,11 @@ namespace BuJoProApplicationLogic.BuJoCreator
 
             var secondPageStream = new MemoryStream(_dotedPaper);
             var secondPagePdf = PdfReader.Open(secondPageStream, PdfDocumentOpenMode.Import);
-            outputDocument.AddPage(); 
+            var page = new PdfPage();
+            page.Size = PageSize.Letter;
+            page.Orientation = PageOrientation.Landscape;
+            outputDocument.AddPage(page);
+            outputDocument.AddPage(secondPagePdf.Pages[0]);
             outputDocument.AddPage(secondPagePdf.Pages[0]);
 
 
