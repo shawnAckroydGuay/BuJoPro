@@ -29,5 +29,5 @@ RUN apt-get update && apt-get install -y \
     texlive-lang-french 
     
 RUN apt-get install texlive-pictures -y
-#
+
 ENTRYPOINT ["dotnet", "BuJoProApi.dll"]
