@@ -5,6 +5,14 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+RUN apt-get update && apt-get install -y \ 
+    texlive \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-lang-english \
+    texlive-lang-french 
+    
+RUN apt-get install texlive-pictures -y
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
@@ -21,13 +29,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-RUN apt-get update && apt-get install -y \ 
-    texlive \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    texlive-lang-english \
-    texlive-lang-french 
-    
-RUN apt-get install texlive-pictures -y
+
 
 ENTRYPOINT ["dotnet", "BuJoProApi.dll"]

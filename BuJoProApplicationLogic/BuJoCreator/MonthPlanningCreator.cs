@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using PdfSharpCore;
+﻿using PdfSharpCore;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
 using WM.LaTex;
@@ -19,7 +18,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
             _dotedPaper = File.ReadAllBytes(LatexPath+ "dotted-blank-page.pdf");
         }
 
-        public byte[] CreateSixMonths()
+        public byte[] CreateSixMonths(int firstMonth, int monthCount = 6)
         {
             /*
              Since the agenda will be folded, this process is a bit odd. 
@@ -43,45 +42,50 @@ namespace BuJoProApplicationLogic.BuJoCreator
                     - page 16 (back) : blank
                     - page 17 (front) :blank (useless page will not be used, could discard it)
              */
-            PdfDocument outputDocument = new();
+            var outputDocument = new PdfDocument();
 
-            int monthCount = 6;
-            int maxMonth = 12;
-            int minMonth = 7;
+
+            var months = new List<DateTime>();
+            for (int i = 0; i < monthCount; i++)
+            {
+                int month = (firstMonth + i - 1) % 12 + 1;
+                int year = DateTime.Now.Year + (firstMonth + i - 1) / 12;
+                var monthDate = new DateTime(year, month, 1);
+                months.Add(monthDate);
+            }
 
             var secondPageStream = new MemoryStream(_dotedPaper);
             var secondPagePdf = PdfReader.Open(secondPageStream, PdfDocumentOpenMode.Import);
-            var page = new PdfPage();
-            page.Size = PageSize.Letter;
-            page.Orientation = PageOrientation.Landscape;
+            var page = new PdfPage
+            {
+                Size = PageSize.Letter,
+                Orientation = PageOrientation.Landscape
+            };
             outputDocument.AddPage(page);
             outputDocument.AddPage(secondPagePdf.Pages[0]);
             outputDocument.AddPage(secondPagePdf.Pages[0]);
 
-
             for (int i = 0; i < monthCount / 2; i++)
             {
-                string backPageMonth = CreateMonthPlanningPage(2023, minMonth);
-                string frontPageMonth = CreateMonthPlanningPage(2023, maxMonth);
+                string backPageMonth = CreateMonthPlanningPage(months.ElementAt(i).Year, months.ElementAt(i).Month);
+                string frontPageMonth = CreateMonthPlanningPage(months.ElementAt(i).Year, months.ElementAt(monthCount - 1 - i).Month);
                 File.WriteAllText(LatexPath + "backPageMonth.tex", backPageMonth);
                 File.WriteAllText(LatexPath + "frontPageMonth.tex", frontPageMonth);
                 byte[]? firstMonthBytes = _pdfCreator.Convert(LatexPath, "backPageMonth");
                 byte[]? secondMonthBytes = _pdfCreator.Convert(LatexPath, "frontPageMonth");
 
-                MemoryStream streamFirstMonth = new(firstMonthBytes);
-                PdfDocument inputPdfDocumentFirstMonth = PdfReader.Open(streamFirstMonth, PdfDocumentOpenMode.Import);
+                var streamFirstMonth = new MemoryStream(firstMonthBytes);
+                var inputPdfDocumentFirstMonth = PdfReader.Open(streamFirstMonth, PdfDocumentOpenMode.Import);
                 _ = outputDocument.AddPage(inputPdfDocumentFirstMonth.Pages[0]);
 
-                MemoryStream streamSecondMonth = new(secondMonthBytes);
-                PdfDocument inputPdfDocumentSecondMonth = PdfReader.Open(streamSecondMonth, PdfDocumentOpenMode.Import);
+                var streamSecondMonth = new MemoryStream(secondMonthBytes);
+                var inputPdfDocumentSecondMonth = PdfReader.Open(streamSecondMonth, PdfDocumentOpenMode.Import);
                 _ = outputDocument.AddPage(inputPdfDocumentSecondMonth.Pages[0]);
 
-                MemoryStream dottedMonthStream = new(_dotedPaper);
-                PdfDocument inputDottedPaper = PdfReader.Open(dottedMonthStream, PdfDocumentOpenMode.Import);
+                var dottedMonthStream = new MemoryStream(_dotedPaper);
+                var inputDottedPaper = PdfReader.Open(dottedMonthStream, PdfDocumentOpenMode.Import);
                 _ = outputDocument.AddPage(inputDottedPaper.Pages[0]);
                 _ = outputDocument.AddPage(inputDottedPaper.Pages[0]);
-                minMonth++;
-                maxMonth--;
             }
 
             using (MemoryStream stream = new MemoryStream())
@@ -105,7 +109,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
             int daysOfTheMonths = DateTime.DaysInMonth(year, month);
             for (int i = 1; i <= daysOfTheMonths; i++)
             {
-                DateTime day = new(year, month, i);
+                var day = new DateTime(year, month, i);
                 string dayName = day.ToString("D", System.Globalization.CultureInfo.CreateSpecificCulture("fr-FR"));
                 daysOfTheMonth += i.ToString("D2") + dayName[..1].ToUpper() + ",";
             }
@@ -122,7 +126,9 @@ namespace BuJoProApplicationLogic.BuJoCreator
         {
             string originalMonthPlanningTemplate = File.ReadAllText(MonthTemplatePath);
             string monthPlanningWithDaysList = originalMonthPlanningTemplate.Replace("listOfDaysToReplace", dayList);
-            string monthPlanningWithDaysCount = monthPlanningWithDaysList.Replace("daysCountToReplace", daysCount.ToString()).Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
+            string monthPlanningWithDaysCount = monthPlanningWithDaysList
+                    .Replace("daysCountToReplace", daysCount.ToString())
+                    .Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
             return monthPlanningWithDaysCount;
         }
 

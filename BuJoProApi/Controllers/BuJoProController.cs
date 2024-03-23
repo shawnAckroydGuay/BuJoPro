@@ -20,10 +20,10 @@ namespace BuJoProApi.Controllers
         }
 
         [HttpGet("GetBuJoPDFV1")]
-        public IActionResult CreateBulletJournal()
+        public IActionResult CreateBulletJournal([FromQuery] int firstMonth, [FromQuery] int monthCount = 6)
         {
-            var bujoPDF = _monthPlanningCreator.CreateSixMonths();
-
+            var bujoPDF = _monthPlanningCreator.CreateSixMonths(firstMonth);
+            
             Response.Headers.Add("Content-Type", "application/pdf");
             Response.Headers.Add("Content-Disposition", "inline; filename=bulletjournal.pdf");
 
@@ -31,9 +31,9 @@ namespace BuJoProApi.Controllers
         }
 
         [HttpGet("GetBuJoPDFV2")]
-        public IActionResult CreateBulletJournalV2()
+        public IActionResult CreateBulletJournalV2([FromQuery] int firstMonth)
         {
-            var bujoPDFBytes = _monthPlanningCreator.CreateSixMonths();
+            var bujoPDFBytes = _monthPlanningCreator.CreateSixMonths(firstMonth);
             var bujoPDFBase64 = Convert.ToBase64String(bujoPDFBytes);
 
             return Ok(new { BuJoPDFBase64 = bujoPDFBase64 });
