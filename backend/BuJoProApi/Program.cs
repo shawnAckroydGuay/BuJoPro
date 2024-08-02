@@ -9,6 +9,15 @@ namespace BuJoProApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -34,6 +43,8 @@ namespace BuJoProApi
 
 
             app.MapControllers();
+
+            app.UseCors("AllowAllOrigins");
 
             app.Run();
         }
