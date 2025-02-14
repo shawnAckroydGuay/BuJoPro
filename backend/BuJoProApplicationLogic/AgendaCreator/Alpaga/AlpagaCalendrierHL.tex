@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage[paperheight=8.5in,paperwidth=5.5in,margin=0in]{geometry} % Set page size and margins
+\usepackage{tikz}
+\usepackage{scalefnt}
+\usetikzlibrary{positioning, calc}
+\usepackage{datetime}
+\usepackage{xstring}
+\usepackage{pgfmath}
+\usepackage{intcalc} 
+\usepackage{ifthen} 
+
+\tikzset{
+    circle node/.style =  {circle, draw, inner sep=1pt, },
+    X node/.style = {fill=white, inner sep=1pt},
+    day node/.style = {font=\scalefont{1.3}, yshift=6pt, xshift=-200pt, anchor=west, gray},
+    task node/.style = { font=\scalefont{1}},
+    event node/.style = {circle, fill=red},
+    dot node/.style = {circle, draw, inner sep=5pt, },
+    rectangle node/.style = {
+    rectangle, % Shape
+    rounded corners=4pt, % Radius of rounded corners
+    draw, % Draw the outline
+    inner sep=0.25pt, % Padding inside the rectangle
+    minimum width=13.9cm, % Minimum width of the rectangle
+    minimum height=0.56cm, % Minimum height of the rectangle
+    draw=gray,
+    densely dotted
+    }
+}
+
+
+
+\newcommand{\monthTaskDot}[2]{
+    \StrBefore{#1}{,}[\xCoord] % Extract x coordinate
+    \StrBehind{#1}{,}[\yCoord]
+    \node[rectangle node] at (#1) {}; 
+    \node[day node] at (#1) {\scalebox{0.5}{\colorbox{white}{\texttt{#2}}}};
+    \StrBefore{#1}{,}[\xCoord] % Extract x coordinate
+    \StrBehind{#1}{,}[\yCoord]
+}
+
+\newcommand{\taskDot}[1]{
+    \fill (#1) circle [radius=0.75pt];
+}
+
+listOfDaysToReplace
+\def\daysOfMonth{1,...,daysCountToReplace}
+\def\daysCount{daysCountToReplace}
+\def\dayCountPlusOne{daysCountPlusOneToReplace}
+\def\firstCat{Important}
+\def\secondCat{Social}
+\def\thirdCat{Améliorations}
+\def\monthName{Juin}
+
+\begin{document}
+    
+
+
+    % Create dotted paper background
+    \begin{tikzpicture}[remember picture, overlay]
+
+        %Dessiner les bullets points : 
+        \def\dotRadius{0.75pt}  % Size of the dots
+        %\newcounter{lineNum}   % Define a counter for line numbering
+        %\setcounter{lineNum}{0} %
+
+        
+        \pgfmathsetmacro{\yposition}{0.04}
+        \foreach \y [count=\counterOriginal, evaluate=\counterOriginal as \counter using ((\counterOriginal)-0.9)/1.79)] in \bulletCount {
+            %Affiche la date du jour jusqu'au nombre de jour dans le mois.
+            \ifdim\counterOriginal < \dayCountPlusOne
+                \taskDot{-0.16, -\yposition - 0.05};
+                \taskDot{4.45, -\yposition - 0.05 };
+                \taskDot{9, -\yposition - 0.05 };
+                \monthTaskDot{6.45, -\yposition}{\texttt{\y}};
+                \pgfmathparse{\yposition + 0.6965} % Perform arithmetic
+                \global\let\yposition\pgfmathresult % Up
+
+            \fi
+        }
+
+
+        
+    \end{tikzpicture}
+    
+    
+\end{document}
