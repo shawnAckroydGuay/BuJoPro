@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage[paperheight=8.5in,paperwidth=5.5in,margin=0in]{geometry} % Set page size and margins
+\usepackage{tikz}
+\usepackage{scalefnt}
+\usetikzlibrary{positioning, calc}
+\usepackage{datetime}
+\usepackage{xstring}
+\usepackage{pgfmath}
+\usepackage{datetime}
+\usepackage{ifthen}
+\usepackage{calligra}
+\usepackage{etoolbox}
+
+
+\newbool{isFirstPage}
+
+%Variables à remplacer en C#
+monthsDefinitionToReplace
+\def\isFirstPage{}
+%
+
+
+
+\newcommand{\monthTaskDot}[1]{
+    \fill (#1) circle [radius=1pt];
+}
+
+\newcommand{\monthCalendar}[3]{
+    \StrBefore{#1}{,}[\xCoord] % Extract x coordinate
+    \StrBehind{#1}{,}[\yCoord]
+    \node [text width=5.7cm, align=center, fill=white, minimum height=3.5cm] at (\xCoord + 2.3 , \yCoord - 0.5) {
+    };
+    \node [font=\fontsize{8pt}\selectfont, text width=4.75cm, align=center] at (\xCoord + 2.2, \yCoord + 1) {
+        \texttt{#3}
+    };
+    \pgfmathsetmacro{\yposition}{\yCoord + 0.5}
+    \pgfmathsetmacro{\xposition}{\xCoord}
+    \foreach \day [count=\j] in #2 {
+        \ifthenelse{\equal{\day}{XX}}{}{
+            \node at (\xposition, \yposition) {\texttt{\day}};
+        }
+        \pgfmathparse{int(mod(\j,7)==0)}
+        \ifnum\pgfmathresult=1
+            \pgfmathparse{\yposition - 0.5} % Perform arithmetic
+            \global\let\yposition\pgfmathresult 
+            \pgfmathparse{\xCoord + 0 } % Perform arithmetic
+            \global\let\xposition\pgfmathresult
+        \else 
+            \pgfmathparse{\xposition + 0.75}
+            \global\let\xposition\pgfmathresult
+        \fi
+    }
+}
+
+
+
+\begin{document}
+    \begin{tikzpicture}[remember picture, overlay]
+        %Dessiner les bullets points.
+        \def\dotRadius{0.6pt}
+        \foreach \x in {-0.199, -0.051, ..., 5.5} {
+            \foreach \y in {-0.09, 0.18, ..., 8.5} {
+                \fill[gray!70] (\x in, -\y in) circle (\dotRadius);
+            }
+        }
+    
+
+    \ifbool{isFirstPage}{
+        \monthCalendar{-0.3, -1}{\firstMonthDayList}{\firstMonthName}
+        \monthCalendar{8.05, -4.45}{\secondMonthDayList}{\secondMonthName}
+        \monthCalendar{-0.3, -7.9}{\thirdMonthDayList}{\thirdMonthName}
+        \monthCalendar{8.05, -11.32}{\fourthMonthDayList}{\fourthMonthName}
+        \monthCalendar{-0.3, -14.735}{\fifthMonthDayList}{\fifthMonthName}
+        \monthCalendar{8.05, -18.3}{\sixthMonthDayList}{\sixthMonthName}
+    }{
+        \monthCalendar{0.13, -1}{\firstMonthDayList}{\firstMonthName}
+        \monthCalendar{8.5, -4.45}{\secondMonthDayList}{\secondMonthName}
+        \monthCalendar{0.13, -7.9}{\thirdMonthDayList}{\thirdMonthName}
+        \monthCalendar{8.5, -11.32}{\fourthMonthDayList}{\fourthMonthName}
+        \monthCalendar{0.13, -14.735}{\fifthMonthDayList}{\fifthMonthName}
+        \monthCalendar{8.5, -18.3}{\sixthMonthDayList}{\sixthMonthName}
+    }
+
+    
+    \end{tikzpicture}
+
+\end{document}
