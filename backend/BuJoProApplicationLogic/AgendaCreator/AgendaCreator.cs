@@ -17,6 +17,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
         private readonly byte[] _dotedPaper;
         private readonly byte[] _splittedDotedPaper;
         private readonly byte[] _blankPaper;
+        private readonly byte[] _categoriesMois;
         public string MonthTemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/AlpagaCalendrierHL.tex";
         public string AnnualPlanningPath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/PlanificationAnnuelleZigZag.tex";
         public string CouverturePath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/CouvertureHL.tex";
@@ -28,6 +29,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
             _dotedPaper = File.ReadAllBytes(TemplatePath + "DottedHL.pdf");
             _splittedDotedPaper = File.ReadAllBytes(TemplatePath + "SeparatedDottedHL.pdf");
             _blankPaper = File.ReadAllBytes(TemplatePath + "BlankHL.pdf");
+            _categoriesMois = File.ReadAllBytes(TemplatePath + "SeparatedDottedSixCategories.pdf");
         }
 
         public byte[] CreerLePlanificateurEnPdf(int premierMois,
@@ -68,6 +70,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
                 File.WriteAllText(TemplatePath + "alpagaV2.tex", calendrierLatexFormatte);
                 var alpagaBytes = _pdfCreator.Convert(TemplatePath, "alpagaV2");
                 pagesAImprimer.Add(alpagaBytes);
+                pagesAImprimer.Add(_categoriesMois);
                 pagesAImprimer.Add(_splittedDotedPaper);
                 pagesAImprimer.Add(_splittedDotedPaper);
                 pagesAImprimer.Add(_splittedDotedPaper);
