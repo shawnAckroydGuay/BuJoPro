@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage[
+    paperwidth=6in,
+    paperheight=8.5in,
+    hmargin=0in,
+    vmargin=0in,
+    nohead,
+    nofoot,
+    includeheadfoot
+]{geometry}
+\setlength{\topskip}{0mm}
+\setlength{\parindent}{0mm}
+\usepackage{tikz}
+\usepackage{scalefnt}
+\usetikzlibrary{positioning, calc}
+\usepackage{datetime}
+\usepackage{xstring}
+\usepackage{pgfmath}
+\def\hauteurLigneJourSemaine{0.225}
+
+
+
+\tikzset{
+    circle node/.style = {circle,inner sep=1pt,draw, fill=white, minimum size=3pt},
+    X node/.style = {fill=white, inner sep=1pt},
+    day node/.style = {font=\scalefont{0.7}, yshift=-3.5pt},
+    task node/.style = { font=\scalefont{1}},
+    event node/.style = {circle, fill=red},
+    dot node/.style = {circle, draw, inner sep=5pt, }
+}
+
+\newcommand{\monthTaskDot}[1]{
+    \fill (#1) circle [radius=1pt];
+}
+ 
+
+\begin{document}
+\setlength{\parindent}{0pt} %Retirer les marges.
+\thispagestyle{empty} % Disable page numbers
+\thispagestyle{empty}
+    
+
+
+    % Create dotted paper background
+    \begin{tikzpicture}[remember picture, overlay]
+        %Séparer la page en deux 
+
+        
+        %Dessiner les bullets points : 
+        \def\dotRadius{0.6pt}  % Size of the dots
+        \newcounter{lineNum}   % Define a counter for line numbering
+        \setcounter{lineNum}{0} %
+        \foreach \x in {1.5, 1.6875, ..., 6} {
+             %\setcounter{lineNum}{0}
+             %\node[anchor=east] at (\x in, 0 in) {\thelineNum};
+             %\stepcounter{lineNum}
+            
+            \foreach \y in {0.230, 0.46, ..., 8.5} {
+                %\node[anchor=east] at (0 in, -\y in) {\thelineNum};
+                \fill[gray!70] (\x in, -\y  in) circle (\dotRadius);
+                %\stepcounter{lineNum}
+            }
+        }
+
+        \foreach \y in {\hauteurLigneJourSemaine, 1.604, ..., 8.5} {
+            \draw[gray!90] (1.5in, -\y  in) to (6in, -\y in);
+        }
+
+        \node[anchor=north west, font=\bfseries] at (1.95in, 0in) {Lundi};
+        \node[anchor=north west, font=\bfseries] at (3.45in, 0in) {Mardi};
+        \node[anchor=north west, font=\bfseries] at (4.9in, 0in) {Mercredi};
+        %Espace verticale vide 
+        \draw [gray!90] (1.5in, 0 in) to (1.5in, -8.5in);
+        
+        %Lundi - Mardi
+        \draw [gray!90] (3in, 1in) to (3in, -8.5in);
+
+        %Mardi - Mercredi
+        \draw [gray!90] (4.5in, 1in) to (4.5in, -8.5in);
+        
+        %Ligne séparatrice pour le nom des jours de la semaine
+        \draw [gray!90] (1.5in, -\hauteurLigneJourSemaine in) to (6in, -\hauteurLigneJourSemaine in);
+        
+
+        
+
+        
+        \foreach \y [count=\counterOriginal, evaluate=\counterOriginal as \counter using ((\counterOriginal)-0.9)/1.79)] in \bulletCount {
+            %Affiche la date du jour jusqu'au nombre de jour dans le mois.
+            \ifdim\counterOriginal < \dayCountPlusOne
+                %\fill (-0.18, -\counter) node (A) [day node] {\texttt{\y}};
+            \fi
+
+            %\ifdim\counterOriginal pt=\dayCountPlusOne pt
+               % \fill (2.5, -\counter) node (A) [task node] {\text{\firstCat}}; 
+              %  \fill (6.95, -\counter) node (A) [task node] {\text{\secondCat}}; 
+             %   \fill (11.35, -\counter) node (A) [task node] {\text{\thirdCat}}; 
+            %\else
+               % \monthTaskDot{0.34, -\counter};
+              %  \monthTaskDot{4.79, -\counter};
+             %   \monthTaskDot{9.2, -\counter};
+            %\fi
+        }
+    
+        %\ifnum\daysCount=28
+        %    \draw [loosely dashed] (0, -30.31) to (90,-30.31);  
+       % \fi
+       % \ifnum\daysCount=29
+        %    \draw [loosely dashed] (0, -31.29) to (90,-31.29);  
+       % \fi
+       % \ifnum\daysCount=30
+       %     \draw [loosely dashed] (-1, -16.53) to (15, -16.53);  
+       % \fi
+       % \ifnum\daysCount=31
+       %     \draw [loosely dashed] (0, -33.25) to (90,-33.25);  
+       % \fi
+
+
+        
+    \end{tikzpicture}
+    
+    
+\end{document}
