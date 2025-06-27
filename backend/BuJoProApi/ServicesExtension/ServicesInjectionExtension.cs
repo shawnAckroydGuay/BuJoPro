@@ -6,7 +6,8 @@ namespace bujopro_api.ServicesExtension
     {
         internal static void ConfigureDepedencyInjectionServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IAgendaCreator, AgendaCreator>();
+            serviceCollection.AddScoped<IAlpagaAgendaCreator, AlpagaAgendaCreator>();
+            serviceCollection.AddScoped<SpiralAlpagaAgendaCreator>();
         }
     }
 }

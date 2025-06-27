@@ -1,29 +1,26 @@
 ﻿
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.IO;
 using PdfSharpCore.Drawing;
-using System.Drawing.Printing;
-
 using WM.LaTex;
-using System.Diagnostics;
 using System.Globalization;
 
 
 namespace BuJoProApplicationLogic.BuJoCreator
 {
-    public class AgendaCreator : IAgendaCreator
+    public class SpiralAlpagaAgendaCreator
     {
-        public string TemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/";
+        public string TemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Spiral/";
         private readonly byte[] _dotedPaper;
         private readonly byte[] _splittedDotedPaper;
         private readonly byte[] _blankPaper;
         private readonly byte[] _categoriesMois;
-        public string MonthTemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/AlpagaCalendrierHL.tex";
-        public string AnnualPlanningPath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/PlanificationAnnuelleZigZag.tex";
-        public string CouverturePath = AppContext.BaseDirectory + "/AgendaCreator/Alpaga/CouvertureHL.tex";
+        public string MonthPart1TemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Spiral/SpiralCalendrierLunMarMer.tex";
+        public string MonthPart2TemplatePath = AppContext.BaseDirectory + "/AgendaCreator/Spiral/SpiralCalendrierJeuVenSamDim.tex";
+        public string AnnualPlanningPath = AppContext.BaseDirectory + "/AgendaCreator/Spiral/PlanificationAnnuelleSpirale.tex";
+        public string CouverturePath = AppContext.BaseDirectory + "/AgendaCreator/Spiral/CouvertureHL.tex";
         private readonly LatexToPdf _pdfCreator;
 
-        public AgendaCreator()
+        public SpiralAlpagaAgendaCreator()
         {
             _pdfCreator = new LatexToPdf();
             _dotedPaper = File.ReadAllBytes(TemplatePath + "DottedHL.pdf");
@@ -35,7 +32,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
         public byte[] CreerLePlanificateurEnPdf(int premierMois,
          string titre, 
          byte[]? imageCouverture,
-         int nombreDeMoisVoulu = 6)
+         int nombreDeMoisVoulu = 12)
         {
             if(imageCouverture is not null)
                 EnregistrerImageCouverture(imageCouverture);
@@ -66,10 +63,14 @@ namespace BuJoProApplicationLogic.BuJoCreator
 
             foreach (var month in listeDesMois)
             {
-                var calendrierLatexFormatte = CreerLaPageCalendrierDuMois(month.Year, month.Month);
-                File.WriteAllText(TemplatePath + "alpagaV2.tex", calendrierLatexFormatte);
-                var alpagaBytes = _pdfCreator.Convert(TemplatePath, "alpagaV2");
-                pagesAImprimer.Add(alpagaBytes);
+                var calendrierPartie1LatexFormatte = CreerLaPageCalendrierPremierePartieDuMois(month.Year, month.Month);
+                File.WriteAllText(TemplatePath + "spiralAlpagaMois1.tex", calendrierPartie1LatexFormatte);
+                var spiralAlpagaPremierPartieMoisBytes = _pdfCreator.Convert(TemplatePath, "spiralAlpagaMois1");
+                var calendrierLatexPartie2Formatte = CreerLaPageCalendrierDeuximePartieDuMois(month.Year, month.Month);
+                File.WriteAllText(TemplatePath + "spiralAlpagaMois2.tex", calendrierLatexPartie2Formatte);
+                var spiralAlpagaDeuxiemePartieMoisBytes = _pdfCreator.Convert(TemplatePath, "spiralAlpagaMois2");
+                pagesAImprimer.Add(spiralAlpagaPremierPartieMoisBytes);
+                pagesAImprimer.Add(spiralAlpagaDeuxiemePartieMoisBytes);
                 pagesAImprimer.Add(_categoriesMois);
                 pagesAImprimer.Add(_splittedDotedPaper);
                 pagesAImprimer.Add(_splittedDotedPaper);
@@ -77,7 +78,7 @@ namespace BuJoProApplicationLogic.BuJoCreator
             }
 
             pagesAImprimer.Add(_blankPaper);
-            return CreerAgendaPDFPourPlierFormatLettre(pagesAImprimer);
+            return CreerAgendaPDFPourSpiralFormatSD(pagesAImprimer);
 
         }
 
@@ -145,33 +146,20 @@ namespace BuJoProApplicationLogic.BuJoCreator
             var planningAnnuelPage2 = _pdfCreator.Convert(TemplatePath, "annualPlanningPage2");
             return (planningAnnuelPage1, planningAnnuelPage2);
         }
-        /// <summary>
-        /// Cette fonction va simplement prendre une liste ordonnéee de fichiers pdf au format HL (Half-Letter)
-        /// et va les imprimer de manière à ce qu'on puisse faire un agenda en pliant les feuilles de format
-        /// lettre en deux. 
-        /// Ex : Si j'ai 8 pdfs HL, cette fonction va les imprimer sur 2 pages format lettre recto-verso.
-        /// Ces 2 pages seront pliées sur le côté court et assemblées ensemble afin de faire un 
-        /// carnet. Ces deux pages format lettre vont donc créer un carnet de 8 pages au format HL.
-        ///  feuille 1 : recto: [8|1] verso: [2|7]
-        ///  feuille 2: recto: [6|3] verso: [4|5]
-        ///  les chiffres représentent l'ordre des PDF HL
-        /// </summary>
-        public byte[] CreerAgendaPDFPourPlierFormatLettre(List<byte[]> pdfList)
-        {
-            // var outputPath = "output.pdf";
-            PdfDocument outputDocument = new PdfDocument();
 
-            var debut = 0;
-            var fin = pdfList.Count() - 1;
-            var pageflip = false;
-            while (debut <= fin)
+        public byte[] CreerAgendaPDFPourSpiralFormatSD(List<byte[]> pdfList){
+
+            PdfDocument outputDocument = new PdfDocument();
+            var recto = true; 
+            
+            foreach (var pdf in pdfList)
             {
                 // Format lettre en points (1 pouce = 72 points)
-                const double LETTER_WIDTH = 11 * 72;   // 11 pouces (largeur en mode paysage)
+                //const double LETTER_WIDTH = 11 * 72;   // 11 pouces (largeur en mode paysage)
                 const double LETTER_HEIGHT = 8.5 * 72; // 8.5 pouces (hauteur en mode paysage)
 
-                // Chaque PDF devrait occuper exactement la moitié de la largeur
-                const double PDF_WIDTH = LETTER_WIDTH / 2;   // 5.5 pouces
+                const double PDF_WIDTH = 6 * 72;   // 6 pouces
+                const double PDF_BLANK_SPACE = 5 * 72; // 5 pouces
                 const double PDF_HEIGHT = LETTER_HEIGHT;     // 8.5 pouces
 
                 // Créer une page au format lettre en mode paysage
@@ -181,25 +169,18 @@ namespace BuJoProApplicationLogic.BuJoCreator
 
                 XGraphics gfx = XGraphics.FromPdfPage(page);
 
-                var page1Stream = pageflip ? new MemoryStream(pdfList[debut])
-                    : new MemoryStream(pdfList[fin]);
-
-                var page2Stream = pageflip ? new MemoryStream(pdfList[fin])
-                    : new MemoryStream(pdfList[debut]);
+                var pageStream = new MemoryStream(pdf);
 
                 // Positionner le premier PDF sur la moitié gauche
-                XPdfForm form1 = XPdfForm.FromStream(page1Stream);
-                gfx.DrawImage(form1, 0, 0, PDF_WIDTH, PDF_HEIGHT);
-
-                // Positionner le deuxième PDF sur la moitié droite
-                XPdfForm form2 = XPdfForm.FromStream(page2Stream);
-                gfx.DrawImage(form2, PDF_WIDTH, 0, PDF_WIDTH, PDF_HEIGHT);
-
-                fin--;
-                debut++;
-                pageflip = !pageflip;
+                XPdfForm form1 = XPdfForm.FromStream(pageStream);
+                if(recto)
+                    gfx.DrawImage(form1, 0, 0, PDF_WIDTH, PDF_HEIGHT);
+                else
+                    gfx.DrawImage(form1, PDF_BLANK_SPACE, 0, PDF_WIDTH, PDF_HEIGHT);
+                
+                recto = !recto;
             }
-            // outputDocument.Save(outputPath);
+
             outputDocument.Close();
 
             using (MemoryStream stream = new MemoryStream())
@@ -209,11 +190,18 @@ namespace BuJoProApplicationLogic.BuJoCreator
             }
         }
 
-        public string CreerLaPageCalendrierDuMois(int annee, int mois)
+        public string CreerLaPageCalendrierPremierePartieDuMois(int annee, int mois)
         {
             string listeDesJoursFormattes = CreerLaListeDesJoursDuMois(annee, mois);
             int nombreDeJourDuMois = DateTime.DaysInMonth(annee, mois);
-            return ObtenirCalendrierLaTexFormatte(listeDesJoursFormattes, nombreDeJourDuMois);
+            return ObtenirCalendrierPartie1LaTexFormatte(listeDesJoursFormattes, nombreDeJourDuMois);
+        }
+
+        public string CreerLaPageCalendrierDeuximePartieDuMois(int annee, int mois)
+        {
+            string listeDesJoursFormattes = CreerLaListeDesJoursDuMois(annee, mois);
+            int nombreDeJourDuMois = DateTime.DaysInMonth(annee, mois);
+            return ObtenirCalendrierPartie2LaTexFormatte(listeDesJoursFormattes, nombreDeJourDuMois);
         }
 
         /// <summary>
@@ -291,9 +279,19 @@ namespace BuJoProApplicationLogic.BuJoCreator
         /// daysCountPlusOneToReplace devra être remplacé par le nombre de jour dans le mois + 1
         /// </summary>
         /// <param name="name">The name to greet.</param>
-        public string ObtenirCalendrierLaTexFormatte(string dayList, int daysCount)
+        public string ObtenirCalendrierPartie1LaTexFormatte(string dayList, int daysCount)
         {
-            string calendrierLatexChoisi = File.ReadAllText(MonthTemplatePath);
+            string calendrierLatexChoisi = File.ReadAllText(MonthPart1TemplatePath);
+            calendrierLatexChoisi = calendrierLatexChoisi
+                .Replace("listOfDaysToReplace", dayList)
+                .Replace("daysCountToReplace", daysCount.ToString())
+                .Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
+            return calendrierLatexChoisi;
+        }
+
+        public string ObtenirCalendrierPartie2LaTexFormatte(string dayList, int daysCount)
+        {
+            string calendrierLatexChoisi = File.ReadAllText(MonthPart2TemplatePath);
             calendrierLatexChoisi = calendrierLatexChoisi
                 .Replace("listOfDaysToReplace", dayList)
                 .Replace("daysCountToReplace", daysCount.ToString())
