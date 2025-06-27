@@ -192,16 +192,19 @@ namespace BuJoProApplicationLogic.BuJoCreator
 
         public string CreerLaPageCalendrierPremierePartieDuMois(int annee, int mois)
         {
-            string listeDesJoursFormattes = CreerLaListeDesJoursDuMois(annee, mois);
-            int nombreDeJourDuMois = DateTime.DaysInMonth(annee, mois);
-            return ObtenirCalendrierPartie1LaTexFormatte(listeDesJoursFormattes, nombreDeJourDuMois);
+            var moisPourAffichage = new DateTime(annee, mois, 1);
+            var culture = new CultureInfo("fr-FR"); // Culture française
+            var nomMois = moisPourAffichage.ToString("MMMM yyyy", culture);
+            var listeDesJoursFormattes = CreerLaListeDesJoursDuMoisLunMarMer(annee, mois);
+            var nombreDeJourDuMois = DateTime.DaysInMonth(annee, mois);
+            return ObtenirCalendrierPartie1LaTexFormatte(listeDesJoursFormattes, nomMois);
         }
 
         public string CreerLaPageCalendrierDeuximePartieDuMois(int annee, int mois)
         {
-            string listeDesJoursFormattes = CreerLaListeDesJoursDuMois(annee, mois);
+            string listeDesJoursFormattes = CreerLaListeDesJoursDuMoisJeuVenSamDim(annee, mois);
             int nombreDeJourDuMois = DateTime.DaysInMonth(annee, mois);
-            return ObtenirCalendrierPartie2LaTexFormatte(listeDesJoursFormattes, nombreDeJourDuMois);
+            return ObtenirCalendrierPartie2LaTexFormatte(listeDesJoursFormattes);
         }
 
         /// <summary>
@@ -213,25 +216,65 @@ namespace BuJoProApplicationLogic.BuJoCreator
         /// Ex de sortie: \def\bulletCount{Ven. 01 Décembre, Sam. 02 Décembre, etc.}
         /// Le fichier LaTex va éventuellement se servir de ces jours afin de créer son calendrier.
         /// </summary>
-        public string CreerLaListeDesJoursDuMois(int year, int month)
+        public string CreerLaListeDesJoursDuMoisLunMarMer(int year, int month)
         {
-            string joursDuMois = "\\def\\bulletCount{";
+            string joursDuMois = "\\def\\dayList{";
+            var premierJourMois = new DateTime(year, month, 1);
+            var dayOfWeekNumber = premierJourMois.DayOfWeek == 0 ? 7 : (int)premierJourMois.DayOfWeek;
+            var loopCount = dayOfWeekNumber > 3 ? 4 : dayOfWeekNumber;
+            for (int i = 1; i < loopCount; i++)
+            {
+                joursDuMois += "XX,";
+            }
             int nombreDeJourDansLeMois = DateTime.DaysInMonth(year, month);
             for (int i = 1; i <= nombreDeJourDansLeMois; i++)
             {
                 var jour = new DateTime(year, month, i);
-                TextInfo textInfo = new CultureInfo("fr-FR", false).TextInfo;
-                string jourFormatte = jour.ToString("ddd dd MMMM", new CultureInfo("fr-FR"));
-                jourFormatte = textInfo.ToTitleCase(jourFormatte); //Ajouter une maj. au jour/mois.
+                if (jour.DayOfWeek == DayOfWeek.Monday
+                   || jour.DayOfWeek == DayOfWeek.Tuesday
+                   || jour.DayOfWeek == DayOfWeek.Wednesday
+                )
+                {
+                    var jourDuMois = jour.ToString("dd");
 
-                // Ici on échappe le caractère du point pour que l'interpréteur LaTex 
-                //ne fasse pas un espace supplémentaire à la fin. 
-                jourFormatte = jourFormatte.Replace(".", ".\\");
-                joursDuMois += jourFormatte + ",";
+                    // Ici on échappe le caractère du point pour que l'interpréteur LaTex 
+                    //ne fasse pas un espace supplémentaire à la fin. 
+                    jourDuMois = jourDuMois.Replace(".", ".\\");
+                    joursDuMois += jourDuMois + ",";
+                }
+
             }
-            for (int i = nombreDeJourDansLeMois; i <= 40; i++)
+            return joursDuMois.Remove(joursDuMois.Length - 1) + "}";
+
+        }
+
+        public string CreerLaListeDesJoursDuMoisJeuVenSamDim(int year, int month)
+        {
+            string joursDuMois = "\\def\\dayList{";
+            var premierJourMois = new DateTime(year, month, 1);
+            var dayOfWeekNumber = premierJourMois.DayOfWeek == 0 ? 7 : (int)premierJourMois.DayOfWeek;
+            for (int i = 4; i < dayOfWeekNumber; i++)
             {
                 joursDuMois += "XX,";
+            }
+            int nombreDeJourDansLeMois = DateTime.DaysInMonth(year, month);
+            for (int i = 1; i <= nombreDeJourDansLeMois; i++)
+            {
+                var jour = new DateTime(year, month, i);
+                if (jour.DayOfWeek == DayOfWeek.Thursday
+                   || jour.DayOfWeek == DayOfWeek.Friday
+                   || jour.DayOfWeek == DayOfWeek.Saturday
+                   || jour.DayOfWeek == DayOfWeek.Sunday
+                )
+                {
+                    var jourDuMois = jour.ToString("dd");
+
+                    // Ici on échappe le caractère du point pour que l'interpréteur LaTex 
+                    //ne fasse pas un espace supplémentaire à la fin. 
+                    jourDuMois = jourDuMois.Replace(".", ".\\");
+                    joursDuMois += jourDuMois + ",";
+                }
+
             }
             return joursDuMois.Remove(joursDuMois.Length - 1) + "}";
 
@@ -279,23 +322,20 @@ namespace BuJoProApplicationLogic.BuJoCreator
         /// daysCountPlusOneToReplace devra être remplacé par le nombre de jour dans le mois + 1
         /// </summary>
         /// <param name="name">The name to greet.</param>
-        public string ObtenirCalendrierPartie1LaTexFormatte(string dayList, int daysCount)
+        public string ObtenirCalendrierPartie1LaTexFormatte(string dayList, string nomMois)
         {
             string calendrierLatexChoisi = File.ReadAllText(MonthPart1TemplatePath);
             calendrierLatexChoisi = calendrierLatexChoisi
-                .Replace("listOfDaysToReplace", dayList)
-                .Replace("daysCountToReplace", daysCount.ToString())
-                .Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
+                .Replace("zigzagouklol", nomMois)
+                .Replace("listOfDaysToReplace", dayList);
             return calendrierLatexChoisi;
         }
 
-        public string ObtenirCalendrierPartie2LaTexFormatte(string dayList, int daysCount)
+        public string ObtenirCalendrierPartie2LaTexFormatte(string dayList)
         {
             string calendrierLatexChoisi = File.ReadAllText(MonthPart2TemplatePath);
             calendrierLatexChoisi = calendrierLatexChoisi
-                .Replace("listOfDaysToReplace", dayList)
-                .Replace("daysCountToReplace", daysCount.ToString())
-                .Replace("daysCountPlusOneToReplace", (daysCount + 1).ToString());
+                .Replace("listOfDaysToReplace", dayList);
             return calendrierLatexChoisi;
         }
     }
