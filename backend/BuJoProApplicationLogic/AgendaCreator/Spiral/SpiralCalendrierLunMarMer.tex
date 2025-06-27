@@ -12,10 +12,13 @@
 \setlength{\parindent}{0mm}
 \usepackage{tikz}
 \usepackage{scalefnt}
-\usetikzlibrary{positioning, calc}
+\usetikzlibrary{positioning, calc, decorations.pathmorphing, decorations.pathreplacing}
 \usepackage{datetime}
 \usepackage{xstring}
 \usepackage{pgfmath}
+\usepackage{intcalc} 
+\usepackage{ifthen} 
+\usepackage{pgffor} 
 \def\hauteurLigneJourSemaine{0.225}
 
 
@@ -23,24 +26,59 @@
 \tikzset{
     circle node/.style = {circle,inner sep=1pt,draw, fill=white, minimum size=3pt},
     X node/.style = {fill=white, inner sep=1pt},
-    day node/.style = {font=\scalefont{0.7}, yshift=-3.5pt},
+    day node/.style = {font=\scalefont{1.1}, yshift=1.75pt},
     task node/.style = { font=\scalefont{1}},
     event node/.style = {circle, fill=red},
-    dot node/.style = {circle, draw, inner sep=5pt, }
+    dot node/.style = {circle, draw, inner sep=5pt, },
+    rectangle node/.style = {
+        rectangle, % Shape
+        rounded corners=5pt, % Radius of rounded corners
+        draw=gray!90, % Draw the outline
+        dash pattern=on 0.5pt off 0.5pt,
+        line width=1pt,
+        inner sep=1pt, % Padding inside the rectangle
+        minimum width=0.5cm, % Minimum width of the rectangle
+        minimum height=0.35cm, % Minimum height of the rectangle
+        fill=white
+      },
+    rectanglefullwhite node/.style = {
+        rectangle, % Shape
+        minimum width=0.57cm, % Minimum width of the rectangle
+        fill=white,
+        yshift=-0.136cm
+      }
 }
 
-\newcommand{\monthTaskDot}[1]{
-    \fill (#1) circle [radius=1pt];
+\newcommand{\monthTaskDot}[2]{
+    \node[rectangle node] at (#1) {}; 
+    \node[rectanglefullwhite node] at (#1) {}; 
+    \node[day node] at (#1) {\scalebox{0.5}{{\texttt{#2}}}};
 }
+
+\newcommand{\afficherVerticalement}[4][1]{%
+    % #1 = espacement (défaut: 1), #2 = position x, #3 = position y de départ, #4 = texte
+    \StrLen{#4}[\longueur]
+    \foreach \i in {1,...,\longueur} {
+        \StrChar{#4}{\i}[\lettre]
+        \node[font=\fontsize{20}{1}\usefont{T1}{pzc}{m}{n}, color=gray] at (#2, #3-#1*\i) {\lettre};
+    }
+}
+
+listOfDaysToReplace
+
+
+\newcommand{\nomMois}{zigzagouklol}
+%\def\dayList{00, 00, 00, 02, 03, 04, 09, 10, 11, 15, 16, 17, 22, 23, 24, 29, 30, 31}
+%\def\dayList{00, 01, 02, 03, 04, 05, 07, 08, 09}
+
  
+
 
 \begin{document}
 \setlength{\parindent}{0pt} %Retirer les marges.
 \thispagestyle{empty} % Disable page numbers
 \thispagestyle{empty}
     
-
-
     % Create dotted paper background
     \begin{tikzpicture}[remember picture, overlay]
         %Séparer la page en deux 
@@ -48,75 +86,88 @@
         
         %Dessiner les bullets points : 
         \def\dotRadius{0.6pt}  % Size of the dots
-        \newcounter{lineNum}   % Define a counter for line numbering
-        \setcounter{lineNum}{0} %
         \foreach \x in {1.5, 1.6875, ..., 6} {
-             %\setcounter{lineNum}{0}
-             %\node[anchor=east] at (\x in, 0 in) {\thelineNum};
-             %\stepcounter{lineNum}
-            
             \foreach \y in {0.230, 0.46, ..., 8.5} {
-                %\node[anchor=east] at (0 in, -\y in) {\thelineNum};
                 \fill[gray!70] (\x in, -\y  in) circle (\dotRadius);
-                %\stepcounter{lineNum}
             }
         }
 
-        \foreach \y in {\hauteurLigneJourSemaine, 1.604, ..., 8.5} {
-            \draw[gray!90] (1.5in, -\y  in) to (6in, -\y in);
+        %Ligne séparatrice pour le nom des jours de la semaine
+        \def\y{-\hauteurLigneJourSemaine in}
+        \fill [white] (1.5in, \y - 1pt) rectangle (6.2in, \y + 1pt);
+        \draw [gray!90] (1.5in, -\hauteurLigneJourSemaine in) to (6.2in, -\hauteurLigneJourSemaine in);
+        
+        \foreach \y in {\hauteurLigneJourSemaine, 1.604, ..., 7.5} {
+            \fill [white] (1.5in, -\y in + 2pt) rectangle (6.2in, -\y in - 2pt);
+            %\draw[gray!90, dash pattern=on 4pt off 2pt on 1pt off 2pt] (1.5in, -\y in) -- (6in, -\y in);
+            \draw[gray!90, dash pattern=on 0.5pt off 0.5pt, line width=1pt] (1.5in, -\y in) -- (6in, -\y in);
+            
+            %\draw[gray!90] (1.5in, -\y  in) to (6in, -\y in);
+            
+            
+
         }
 
-        \node[anchor=north west, font=\bfseries] at (1.95in, 0in) {Lundi};
-        \node[anchor=north west, font=\bfseries] at (3.45in, 0in) {Mardi};
-        \node[anchor=north west, font=\bfseries] at (4.9in, 0in) {Mercredi};
+            %\monthTaskDot{2.25in, -\y in}{01};
+            %\monthTaskDot{3.74in, -\y in}{01};
+            %\monthTaskDot{5.25in, -\y in}{01};
+
+        \afficherVerticalement[0.5]{1.9}{0}{\nomMois}
+
+        \node[anchor=north west, font=\fontsize{9}{15}\usefont{T1}{pzc}{m}{n}] at (2.06in, 0.02in) {Lundi};
+        \node[anchor=north west, font=\fontsize{8}{15}\usefont{T1}{pzc}{m}{n}] at (3.57in, 0.02in) {Mardi};
+        \node[anchor=north west, font=\fontsize{8}{15}\usefont{T1}{pzc}{m}{n}] at (5.01in, 0in) {Mercredi};
         %Espace verticale vide 
-        \draw [gray!90] (1.5in, 0 in) to (1.5in, -8.5in);
+        \fill [white] (1.5in - 1pt, 0 in) rectangle (1.5in + 1pt, -8.5in);
+        \draw [gray!90, dash pattern=on 0.5pt off 0.5pt, line width=2pt] (1.5in, 0 in) to (1.5in, -8.5in);
+        
         
         %Lundi - Mardi
-        \draw [gray!90] (3in, 1in) to (3in, -8.5in);
+        \fill [white] (3in - 1pt, 1 in) rectangle (3in + 1pt, -8.5in);
+        \draw [gray!90, dash pattern=on 0.5pt off 0.5pt, line width=1pt] (3in, 1in) to (3in, -8.5in);
 
         %Mardi - Mercredi
-        \draw [gray!90] (4.5in, 1in) to (4.5in, -8.5in);
-        
-        %Ligne séparatrice pour le nom des jours de la semaine
-        \draw [gray!90] (1.5in, -\hauteurLigneJourSemaine in) to (6in, -\hauteurLigneJourSemaine in);
+        \fill [white] (4.5in - 1pt, 1 in) rectangle (4.5in + 1pt, -8.5in);
+        \draw [gray!90, dash pattern=on 0.5pt off 0.5pt, line width=1pt] (4.5in, 1in) to (4.5in, -8.5in);
         
 
+        % Initialisation des variables
+        \pgfmathsetmacro{\decimalCounterY}{0.58}
+        \pgfmathsetmacro{\decimalCounter}{5.75}
+        \newcounter{compteur}
+        \setcounter{compteur}{0}
+        \def\position{0} % Valeur initiale de la position
         
-
-        
-        \foreach \y [count=\counterOriginal, evaluate=\counterOriginal as \counter using ((\counterOriginal)-0.9)/1.79)] in \bulletCount {
-            %Affiche la date du jour jusqu'au nombre de jour dans le mois.
-            \ifdim\counterOriginal < \dayCountPlusOne
-                %\fill (-0.18, -\counter) node (A) [day node] {\texttt{\y}};
+        % Itération sur la liste
+        \begin{itemize}
+        \foreach \item in \dayList {
+            % Changement de position tous les 3 éléments
+            \ifnum\value{compteur}=3
+                \pgfmathsetmacro{\decimalCounter}{5.75}
+                \xdef\decimalCounter{\decimalCounter}
+                \pgfmathsetmacro{\decimalCounterY}{\decimalCounterY + 3.5}
+                \xdef\decimalCounterY{\decimalCounterY}
+                \setcounter{compteur}{0} % Réinitialisation du compteur
             \fi
-
-            %\ifdim\counterOriginal pt=\dayCountPlusOne pt
-               % \fill (2.5, -\counter) node (A) [task node] {\text{\firstCat}}; 
-              %  \fill (6.95, -\counter) node (A) [task node] {\text{\secondCat}}; 
-             %   \fill (11.35, -\counter) node (A) [task node] {\text{\thirdCat}}; 
-            %\else
-               % \monthTaskDot{0.34, -\counter};
-              %  \monthTaskDot{4.79, -\counter};
-             %   \monthTaskDot{9.2, -\counter};
-            %\fi
-        }
+            
+            \stepcounter{compteur}
+            \ifthenelse{\equal{\item}{XX}}
+            {
+                %Ne rien faire
+            }
+            {
+                \monthTaskDot{\decimalCounter, -\decimalCounterY}{\texttt{\item}}
+            }
+                \pgfmathsetmacro{\decimalCounter}{\decimalCounter + 3.8}
+                \xdef\decimalCounter{\decimalCounter}
+            
     
-        %\ifnum\daysCount=28
-        %    \draw [loosely dashed] (0, -30.31) to (90,-30.31);  
-       % \fi
-       % \ifnum\daysCount=29
-        %    \draw [loosely dashed] (0, -31.29) to (90,-31.29);  
-       % \fi
-       % \ifnum\daysCount=30
-       %     \draw [loosely dashed] (-1, -16.53) to (15, -16.53);  
-       % \fi
-       % \ifnum\daysCount=31
-       %     \draw [loosely dashed] (0, -33.25) to (90,-33.25);  
-       % \fi
-
 
         
+        }
+        \end{itemize}
+
+     
     \end{tikzpicture}
     
     
