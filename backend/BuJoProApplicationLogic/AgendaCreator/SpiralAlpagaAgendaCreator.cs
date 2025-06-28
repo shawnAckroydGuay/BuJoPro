@@ -324,9 +324,10 @@ namespace BuJoProApplicationLogic.BuJoCreator
         /// <param name="name">The name to greet.</param>
         public string ObtenirCalendrierPartie1LaTexFormatte(string dayList, string nomMois)
         {
+            var nomMoisFormatte = string.Join(",", nomMois.Select(c => $"{{{c}}}"));
             string calendrierLatexChoisi = File.ReadAllText(MonthPart1TemplatePath);
             calendrierLatexChoisi = calendrierLatexChoisi
-                .Replace("zigzagouklol", nomMois)
+                .Replace("zigzagouklol", nomMoisFormatte)
                 .Replace("listOfDaysToReplace", dayList);
             return calendrierLatexChoisi;
         }

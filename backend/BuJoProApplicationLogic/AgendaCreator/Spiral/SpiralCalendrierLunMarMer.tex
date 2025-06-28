@@ -55,11 +55,18 @@
     \node[day node] at (#1) {\scalebox{0.5}{{\texttt{#2}}}};
 }
 
+% \newcommand{\afficherVerticalement}[4][1]{%
+%     % #1 = espacement (défaut: 1), #2 = position x, #3 = position y de départ, #4 = texte
+%     \StrLen{#4}[\longueur]
+%     \foreach \i in {1,...,\longueur} {
+%         \StrChar{#4}{\i}[\lettre]
+%         \node[font=\fontsize{20}{1}\usefont{T1}{pzc}{m}{n}, color=gray] at (#2, #3-#1*\i) {\lettre};
+%     }
+% }
+
 \newcommand{\afficherVerticalement}[4][1]{%
-    % #1 = espacement (défaut: 1), #2 = position x, #3 = position y de départ, #4 = texte
-    \StrLen{#4}[\longueur]
-    \foreach \i in {1,...,\longueur} {
-        \StrChar{#4}{\i}[\lettre]
+    % #1=espacement, #2=x, #3=y, #4=mot séparé manuellement, #5=couleur
+    \foreach \lettre [count=\i] in #4 {
         \node[font=\fontsize{20}{1}\usefont{T1}{pzc}{m}{n}, color=gray] at (#2, #3-#1*\i) {\lettre};
     }
 }
