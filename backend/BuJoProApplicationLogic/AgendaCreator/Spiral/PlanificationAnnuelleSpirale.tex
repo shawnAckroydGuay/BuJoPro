@@ -11,12 +11,14 @@
 \usepackage{calligra}
 \usepackage{etoolbox}
 
-
-\newbool{isFirstPage}
+\newboolean{isFirstPage}
 
 %Variables à remplacer en C#
 monthsDefinitionToReplace
-\def\isFirstPage{}
+
+setBoolForCSharp
+
+
 %
 
 
@@ -64,7 +66,7 @@ monthsDefinitionToReplace
         }
 
 
-    \ifbool{false}{
+    \ifbool{isFirstPage}{
         \monthCalendar{-0.3, -1}{\firstMonthDayList}{\firstMonthName}
         \monthCalendar{8.15, -1}{\secondMonthDayList}{\secondMonthName}
         \monthCalendar{-0.3, -7.9}{\thirdMonthDayList}{\thirdMonthName}

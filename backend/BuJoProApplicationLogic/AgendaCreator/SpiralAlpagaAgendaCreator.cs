@@ -136,9 +136,11 @@ namespace BuJoProApplicationLogic.BuJoCreator
             string planningAnnuelleLatex = File.ReadAllText(AnnualPlanningPath);
             var planningAnnuelleLatexPage1 = planningAnnuelleLatex
                 .Replace("monthsDefinitionToReplace", definitionVariablesLatexPage1)
-                .Replace("\\def\\isFirstPage{}", "\\newbool{isFirstPage}");
+                .Replace("setBoolForCSharp", "\\setboolean{isFirstPage}{true}");
             var planningAnnuelleLatexPage2 = planningAnnuelleLatex
-                .Replace("monthsDefinitionToReplace", definitionVariablesLatexPage2);
+                .Replace("monthsDefinitionToReplace", definitionVariablesLatexPage2)
+                .Replace("setBoolForCSharp", "\\setboolean{isFirstPage}{false}");
+
 
             File.WriteAllText(TemplatePath + "annualPlanningPage1.tex", planningAnnuelleLatexPage1);
             File.WriteAllText(TemplatePath + "annualPlanningPage2.tex", planningAnnuelleLatexPage2);
